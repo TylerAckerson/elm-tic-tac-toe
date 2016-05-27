@@ -1,11 +1,13 @@
 module TTT exposing (main)
+
+import Row
 import Html exposing (Html, button, div, text)
-import Html.App as Html
+import Html.App as App
 import Html.Events exposing (onClick)
 import Html.Attributes as Attr
 
 main =
-  Html.beginnerProgram
+  App.beginnerProgram
     { model = model
     , view = view
     , update = update
@@ -15,7 +17,7 @@ main =
 
 type alias Model =
   {
-  position : String
+  position : Row.Model
   , teams : List Team
   }
 
@@ -24,35 +26,22 @@ type alias Team = String
   -- Model
 model : Model
 model =
-  { position  = " "
+  { position  = Row.init
   , teams = [ "X", "O" ]
   }
 
 -- UPDATE
 
 type Msg
-  = Select
-  -- | Decrement
+  = Reset
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-    Select ->
-       { model | position = "X"  }
-    --   model + 1
-    --
-    -- Decrement ->
-    --   model - 1
---
--- update : Msg -> Model -> ( Model, Cmd Msg )
--- update msg model =
---   case msg of
---     Button ->
---       ( { model | clicks = model.clicks + 1 }
---         , Cmd.none )
---     MouseMove position ->
---        ( { model | x = position.x }, Cmd.none)
---
+
+    Reset ->
+      init
+
 
 -- VIEW
 
@@ -66,42 +55,14 @@ view model =
     , div [ teamStyle ] [ text "O" ]
     ]
   , div [] [
-      button [ onClick Select, squareStyle ] [ text  model.position ]
-      ,button [ onClick Select, squareStyle ] [ text  model.position ]
-      ,button [ onClick Select, squareStyle ] [ text  model.position ]
-      , Html.br [] []
-      ,button [ onClick Select, squareStyle ] [ text  model.position ]
-      ,button [ onClick Select, squareStyle ] [ text  model.position ]
-      ,button [ onClick Select, squareStyle ] [ text  model.position ]
-      , Html.br [] []
-      ,button [ onClick Select, squareStyle ] [ text  model.position ]
-      ,button [ onClick Select, squareStyle ] [ text  model.position ]
-      ,button [ onClick Select, squareStyle ] [ text  model.position ]
+      div [] [
+        App.map Row (Row.view model.row)
       ]
+    ]
+  , button [ onClick Reset ] [ text "RESET" ]
   ]
-    -- [ button [ onClick Select ] [ text " " ]
-    -- , button [ onClick Select ] [ text " " ]
-    -- , button [ onClick Select ] [ text " " ]
-    -- , button [ onClick Select ] [ text " " ]
-    -- , button [ onClick Select ] [ text " " ]
-    -- , button [ onClick Select ] [ text " " ]
-    -- , button [ onClick Select ] [ text " " ]
-    -- , button [ onClick Select ] [ text " " ]
-    -- , button [ onClick Select ] [ text " " ]
-
 
 -- styles
-squareStyle : Html.Attribute msg
-squareStyle =
-  Attr.style
-    [ ("display", "inline-block")
-    , ("width", "100px")
-    , ("height", "100px")
-    , ("text-align", "center")
-    , ("border", "1px solid cornflowerblue")
-    , ("background", "none")
-    ]
-
 outerContainer : Html.Attribute msg
 outerContainer =
   Attr.style

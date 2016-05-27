@@ -19,23 +19,18 @@ var _user$project$TTT$outerContainer = _elm_lang$html$Html_Attributes$style(
 			{ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
 			{ctor: '_Tuple2', _0: 'border', _1: '3px solid black'}
 		]));
-var _user$project$TTT$squareStyle = _elm_lang$html$Html_Attributes$style(
-	_elm_lang$core$Native_List.fromArray(
-		[
-			{ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
-			{ctor: '_Tuple2', _0: 'width', _1: '100px'},
-			{ctor: '_Tuple2', _0: 'height', _1: '100px'},
-			{ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
-			{ctor: '_Tuple2', _0: 'border', _1: '1px solid cornflowerblue'},
-			{ctor: '_Tuple2', _0: 'background', _1: 'none'},
-			{ctor: '_Tuple2', _0: ':hover', _1: 'blue'}
-		]));
 var _user$project$TTT$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		return _elm_lang$core$Native_Utils.update(
-			model,
-			{position: 'X'});
+		if (_p0.ctor === 'Reset') {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{position: ''});
+		} else {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{position: 'X'});
+		}
 	});
 var _user$project$TTT$model = {
 	position: ' ',
@@ -46,7 +41,10 @@ var _user$project$TTT$Model = F2(
 	function (a, b) {
 		return {position: a, teams: b};
 	});
-var _user$project$TTT$Select = {ctor: 'Select'};
+var _user$project$TTT$Pos = function (a) {
+	return {ctor: 'Pos', _0: a};
+};
+var _user$project$TTT$Reset = {ctor: 'Reset'};
 var _user$project$TTT$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -100,116 +98,26 @@ var _user$project$TTT$view = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
-							])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
-							])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
-							])),
-						A2(
-						_elm_lang$html$Html$br,
+						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
 							[]),
 						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
-							])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
-							])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
-							])),
-						A2(
-						_elm_lang$html$Html$br,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
-							])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
-							])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_user$project$TTT$Select),
-								_user$project$TTT$squareStyle
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.position)
+								A2(
+								_elm_lang$html$Html_App$map,
+								_user$project$TTT$Pos,
+								_user$project$Position$view(model.position))
 							]))
+					])),
+				A2(
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onClick(_user$project$TTT$Reset)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('RESET')
 					]))
 			]));
 };

@@ -1,0 +1,32 @@
+var _user$project$Position$squareStyle = _elm_lang$html$Html_Attributes$style(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			{ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
+			{ctor: '_Tuple2', _0: 'width', _1: '100px'},
+			{ctor: '_Tuple2', _0: 'height', _1: '100px'},
+			{ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
+			{ctor: '_Tuple2', _0: 'border', _1: '1px solid cornflowerblue'},
+			{ctor: '_Tuple2', _0: 'background', _1: 'none'}
+		]));
+var _user$project$Position$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		return 'X';
+	});
+var _user$project$Position$init = function (model) {
+	return '';
+};
+var _user$project$Position$Select = {ctor: 'Select'};
+var _user$project$Position$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$button,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Events$onClick(_user$project$Position$Select),
+				_user$project$Position$squareStyle
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html$text(model)
+			]));
+};
