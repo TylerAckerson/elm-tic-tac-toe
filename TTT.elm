@@ -1,6 +1,6 @@
 module TTT exposing (main)
 
-import Row
+import Position
 import Html exposing (Html, button, div, text)
 import Html.App as App
 import Html.Events exposing (onClick)
@@ -8,7 +8,7 @@ import Html.Attributes as Attr
 
 main =
   App.beginnerProgram
-    { model = model
+    { model = init
     , view = view
     , update = update
     }
@@ -16,17 +16,20 @@ main =
 -- MODEL
 
 type alias Model =
-  {
-  position : Row.Model
+  { positionOne : Position.Model
+  , positionTwo : Position.Model
+  , positionThree : Position.Model
   , teams : List Team
   }
 
 type alias Team = String
 
   -- Model
-model : Model
-model =
-  { position  = Row.init
+init : Model
+init =
+  { positionOne = Position.init ""
+  , positionTwo = Position.init ""
+  , positionThree = Position.init ""
   , teams = [ "X", "O" ]
   }
 
@@ -34,6 +37,9 @@ model =
 
 type Msg
   = Reset
+  | First Position.Msg
+  | Second Position.Msg
+  | Third Position.Msg
 
 update : Msg -> Model -> Model
 update msg model =
@@ -42,6 +48,14 @@ update msg model =
     Reset ->
       init
 
+    First msg ->
+      { model | positionOne = Position.update msg model.positionOne }
+
+    Second msg ->
+      { model | positionTwo = Position.update msg model.positionTwo }
+
+    Third msg ->
+      { model | positionThree = Position.update msg model.positionThree }
 
 -- VIEW
 
@@ -54,13 +68,19 @@ view model =
     , div [ teamStyle ] [ text "   " ]
     , div [ teamStyle ] [ text "O" ]
     ]
-  , div [] [
-      div [] [
-        App.map Row (Row.view model.row)
+  , div []
+      [
+      div []
+        [ div []
+          [ App.map First (Position.view model.positionOne)
+          , App.map Second (Position.view model.positionTwo)
+          , App.map Third (Position.view model.positionThree)
+          ]
+        ]
       ]
-    ]
   , button [ onClick Reset ] [ text "RESET" ]
   ]
+
 
 -- styles
 outerContainer : Html.Attribute msg
@@ -79,20 +99,10 @@ teamsStyle : Html.Attribute msg
 teamsStyle =
   Attr.style
     [ ("padding", "20px")
-    -- , ("width", "50px")
-    -- , ("height", "50px")
-    -- , ("text-align", "center")
-    -- , ("border", "1px solid cornflowerblue")
     ]
 
 teamStyle : Html.Attribute msg
 teamStyle =
   Attr.style
     [ ("display", "inline")
-    -- , ("font-family", "monospace")
-    -- , ("display", "inline-block")
-    -- , ("width", "50px")
-    -- , ("height", "50px")
-    -- , ("text-align", "center")
-    -- , ("border", "1px solid cornflowerblue")
     ]

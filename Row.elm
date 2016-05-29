@@ -7,20 +7,26 @@ import Html exposing (Html, button, div, text)
 
 -- MODEL
 
-type alias Model = List Position.Model
+type alias Model =
+  [ Position.Model ""
+  , Position.Model ""
+  , Position.Model ""
+  ]
 
-init : List -> Model
-init model =
-  [ Position.init
-  , Position.init
-  , Position.init
+init : String -> String -> Model
+init first sec third =
+  [ Position.init first
+  , Position.init sec
+  , Position.init third
   ]
 
 -- VIEW
 
-view : Model -> Html Position.Msg
+view : Model -> Html Msg
 view model =
-    div []
-    [
-      App.map (Position.view)
+    div
+    []
+    [ App.map (Position.view model[0])
+    , App.map (Position.view model[1])
+    , App.map (Position.view model[2])
     ]

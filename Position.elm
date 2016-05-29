@@ -10,8 +10,8 @@ import Html.Attributes as Attr
 type alias Model = String
 
 init : String -> Model
-init model =
-  ""
+init value =
+  value
 
 
 -- UPDATE

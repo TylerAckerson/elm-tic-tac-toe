@@ -13,8 +13,8 @@ var _user$project$Position$update = F2(
 		var _p0 = msg;
 		return 'X';
 	});
-var _user$project$Position$init = function (model) {
-	return '';
+var _user$project$Position$init = function (value) {
+	return value;
 };
 var _user$project$Position$Select = {ctor: 'Select'};
 var _user$project$Position$view = function (model) {

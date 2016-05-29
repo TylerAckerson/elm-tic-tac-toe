@@ -7234,8 +7234,8 @@ var _user$project$Position$update = F2(
 		var _p0 = msg;
 		return 'X';
 	});
-var _user$project$Position$init = function (model) {
-	return '';
+var _user$project$Position$init = function (value) {
+	return value;
 };
 var _user$project$Position$Select = {ctor: 'Select'};
 var _user$project$Position$view = function (model) {
@@ -7273,30 +7273,51 @@ var _user$project$TTT$outerContainer = _elm_lang$html$Html_Attributes$style(
 			{ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
 			{ctor: '_Tuple2', _0: 'border', _1: '3px solid black'}
 		]));
-var _user$project$TTT$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'Reset') {
-			return _elm_lang$core$Native_Utils.update(
-				model,
-				{position: ''});
-		} else {
-			return _elm_lang$core$Native_Utils.update(
-				model,
-				{position: 'X'});
-		}
-	});
-var _user$project$TTT$model = {
-	position: ' ',
+var _user$project$TTT$init = {
+	positionOne: _user$project$Position$init(''),
+	positionTwo: _user$project$Position$init(''),
+	positionThree: _user$project$Position$init(''),
 	teams: _elm_lang$core$Native_List.fromArray(
 		['X', 'O'])
 };
-var _user$project$TTT$Model = F2(
-	function (a, b) {
-		return {position: a, teams: b};
+var _user$project$TTT$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Reset':
+				return _user$project$TTT$init;
+			case 'First':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						positionOne: A2(_user$project$Position$update, _p0._0, model.positionOne)
+					});
+			case 'Second':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						positionTwo: A2(_user$project$Position$update, _p0._0, model.positionTwo)
+					});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						positionThree: A2(_user$project$Position$update, _p0._0, model.positionThree)
+					});
+		}
 	});
-var _user$project$TTT$Pos = function (a) {
-	return {ctor: 'Pos', _0: a};
+var _user$project$TTT$Model = F4(
+	function (a, b, c, d) {
+		return {positionOne: a, positionTwo: b, positionThree: c, teams: d};
+	});
+var _user$project$TTT$Third = function (a) {
+	return {ctor: 'Third', _0: a};
+};
+var _user$project$TTT$Second = function (a) {
+	return {ctor: 'Second', _0: a};
+};
+var _user$project$TTT$First = function (a) {
+	return {ctor: 'First', _0: a};
 };
 var _user$project$TTT$Reset = {ctor: 'Reset'};
 var _user$project$TTT$view = function (model) {
@@ -7358,9 +7379,24 @@ var _user$project$TTT$view = function (model) {
 						_elm_lang$core$Native_List.fromArray(
 							[
 								A2(
-								_elm_lang$html$Html_App$map,
-								_user$project$TTT$Pos,
-								_user$project$Position$view(model.position))
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html_App$map,
+										_user$project$TTT$First,
+										_user$project$Position$view(model.positionOne)),
+										A2(
+										_elm_lang$html$Html_App$map,
+										_user$project$TTT$Second,
+										_user$project$Position$view(model.positionTwo)),
+										A2(
+										_elm_lang$html$Html_App$map,
+										_user$project$TTT$Third,
+										_user$project$Position$view(model.positionThree))
+									]))
 							]))
 					])),
 				A2(
@@ -7377,7 +7413,7 @@ var _user$project$TTT$view = function (model) {
 };
 var _user$project$TTT$main = {
 	main: _elm_lang$html$Html_App$beginnerProgram(
-		{model: _user$project$TTT$model, view: _user$project$TTT$view, update: _user$project$TTT$update})
+		{model: _user$project$TTT$init, view: _user$project$TTT$view, update: _user$project$TTT$update})
 };
 
 var Elm = {};
