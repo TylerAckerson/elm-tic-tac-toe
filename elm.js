@@ -7268,56 +7268,108 @@ var _user$project$TTT$outerContainer = _elm_lang$html$Html_Attributes$style(
 			{ctor: '_Tuple2', _0: 'font-size', _1: '20px'},
 			{ctor: '_Tuple2', _0: 'font-family', _1: 'monospace'},
 			{ctor: '_Tuple2', _0: 'display', _1: 'block'},
-			{ctor: '_Tuple2', _0: 'width', _1: '100%'},
+			{ctor: '_Tuple2', _0: 'width', _1: '300px'},
 			{ctor: '_Tuple2', _0: 'height', _1: '100%'},
 			{ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
-			{ctor: '_Tuple2', _0: 'border', _1: '3px solid black'}
+			{ctor: '_Tuple2', _0: 'margin', _1: '0 auto'}
 		]));
+var _user$project$TTT$Model = F2(
+	function (a, b) {
+		return {positions: a, teams: b};
+	});
+var _user$project$TTT$IndexedPosition = F3(
+	function (a, b, c) {
+		return {id: a, pos: b, model: c};
+	});
 var _user$project$TTT$init = {
-	positionOne: _user$project$Position$init(''),
-	positionTwo: _user$project$Position$init(''),
-	positionThree: _user$project$Position$init(''),
+	positions: _elm_lang$core$Native_List.fromArray(
+		[
+			A3(
+			_user$project$TTT$IndexedPosition,
+			0,
+			{ctor: '_Tuple2', _0: 0, _1: 0},
+			_user$project$Position$init(' ')),
+			A3(
+			_user$project$TTT$IndexedPosition,
+			1,
+			{ctor: '_Tuple2', _0: 0, _1: 1},
+			_user$project$Position$init(' ')),
+			A3(
+			_user$project$TTT$IndexedPosition,
+			2,
+			{ctor: '_Tuple2', _0: 0, _1: 2},
+			_user$project$Position$init(' ')),
+			A3(
+			_user$project$TTT$IndexedPosition,
+			3,
+			{ctor: '_Tuple2', _0: 1, _1: 0},
+			_user$project$Position$init(' ')),
+			A3(
+			_user$project$TTT$IndexedPosition,
+			4,
+			{ctor: '_Tuple2', _0: 1, _1: 1},
+			_user$project$Position$init(' ')),
+			A3(
+			_user$project$TTT$IndexedPosition,
+			5,
+			{ctor: '_Tuple2', _0: 1, _1: 2},
+			_user$project$Position$init(' ')),
+			A3(
+			_user$project$TTT$IndexedPosition,
+			6,
+			{ctor: '_Tuple2', _0: 2, _1: 0},
+			_user$project$Position$init(' ')),
+			A3(
+			_user$project$TTT$IndexedPosition,
+			7,
+			{ctor: '_Tuple2', _0: 2, _1: 1},
+			_user$project$Position$init(' ')),
+			A3(
+			_user$project$TTT$IndexedPosition,
+			8,
+			{ctor: '_Tuple2', _0: 2, _1: 2},
+			_user$project$Position$init(' '))
+		]),
 	teams: _elm_lang$core$Native_List.fromArray(
 		['X', 'O'])
 };
+var _user$project$TTT$updateHelp = F3(
+	function (targetId, msg, _p0) {
+		var _p1 = _p0;
+		var _p3 = _p1.model;
+		var _p2 = _p1.id;
+		return A3(
+			_user$project$TTT$IndexedPosition,
+			_p2,
+			_p1.pos,
+			_elm_lang$core$Native_Utils.eq(targetId, _p2) ? A2(_user$project$Position$update, msg, _p3) : _p3);
+	});
 var _user$project$TTT$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'Reset':
-				return _user$project$TTT$init;
-			case 'First':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						positionOne: A2(_user$project$Position$update, _p0._0, model.positionOne)
-					});
-			case 'Second':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						positionTwo: A2(_user$project$Position$update, _p0._0, model.positionTwo)
-					});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						positionThree: A2(_user$project$Position$update, _p0._0, model.positionThree)
-					});
+		var _p4 = msg;
+		if (_p4.ctor === 'Reset') {
+			return _user$project$TTT$init;
+		} else {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					positions: A2(
+						_elm_lang$core$List$map,
+						A2(_user$project$TTT$updateHelp, _p4._0, _p4._1),
+						model.positions)
+				});
 		}
 	});
-var _user$project$TTT$Model = F4(
-	function (a, b, c, d) {
-		return {positionOne: a, positionTwo: b, positionThree: c, teams: d};
+var _user$project$TTT$Select = F2(
+	function (a, b) {
+		return {ctor: 'Select', _0: a, _1: b};
 	});
-var _user$project$TTT$Third = function (a) {
-	return {ctor: 'Third', _0: a};
-};
-var _user$project$TTT$Second = function (a) {
-	return {ctor: 'Second', _0: a};
-};
-var _user$project$TTT$First = function (a) {
-	return {ctor: 'First', _0: a};
+var _user$project$TTT$viewIndexedPosition = function (_p5) {
+	var _p6 = _p5;
+	return A2(
+		_elm_lang$html$Html_App$map,
+		_user$project$TTT$Select(_p6.id),
+		_user$project$Position$view(_p6.model));
 };
 var _user$project$TTT$Reset = {ctor: 'Reset'};
 var _user$project$TTT$view = function (model) {
@@ -7370,35 +7422,7 @@ var _user$project$TTT$view = function (model) {
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								A2(
-								_elm_lang$html$Html$div,
-								_elm_lang$core$Native_List.fromArray(
-									[]),
-								_elm_lang$core$Native_List.fromArray(
-									[
-										A2(
-										_elm_lang$html$Html_App$map,
-										_user$project$TTT$First,
-										_user$project$Position$view(model.positionOne)),
-										A2(
-										_elm_lang$html$Html_App$map,
-										_user$project$TTT$Second,
-										_user$project$Position$view(model.positionTwo)),
-										A2(
-										_elm_lang$html$Html_App$map,
-										_user$project$TTT$Third,
-										_user$project$Position$view(model.positionThree))
-									]))
-							]))
-					])),
+				A2(_elm_lang$core$List$map, _user$project$TTT$viewIndexedPosition, model.positions)),
 				A2(
 				_elm_lang$html$Html$button,
 				_elm_lang$core$Native_List.fromArray(

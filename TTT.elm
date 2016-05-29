@@ -3,6 +3,7 @@ module TTT exposing (main)
 import Position
 import Html exposing (Html, button, div, text)
 import Html.App as App
+import Array
 import Html.Events exposing (onClick)
 import Html.Attributes as Attr
 
@@ -16,10 +17,14 @@ main =
 -- MODEL
 
 type alias Model =
-  { positionOne : Position.Model
-  , positionTwo : Position.Model
-  , positionThree : Position.Model
+  { positions : List IndexedPosition
   , teams : List Team
+  }
+
+type alias IndexedPosition =
+  { id : Int
+  , pos : (Int, Int)
+  , model : Position.Model
   }
 
 type alias Team = String
@@ -27,19 +32,26 @@ type alias Team = String
   -- Model
 init : Model
 init =
-  { positionOne = Position.init ""
-  , positionTwo = Position.init ""
-  , positionThree = Position.init ""
+  { positions =
+    [ IndexedPosition 0 (0, 0) (Position.init " ")
+    , IndexedPosition 1 (0, 1) (Position.init " ")
+    , IndexedPosition 2 (0, 2) (Position.init " ")
+    , IndexedPosition 3 (1, 0) (Position.init " ")
+    , IndexedPosition 4 (1, 1) (Position.init " ")
+    , IndexedPosition 5 (1, 2) (Position.init " ")
+    , IndexedPosition 6 (2, 0) (Position.init " ")
+    , IndexedPosition 7 (2, 1) (Position.init " ")
+    , IndexedPosition 8 (2, 2) (Position.init " ")
+    ]
   , teams = [ "X", "O" ]
   }
+
 
 -- UPDATE
 
 type Msg
   = Reset
-  | First Position.Msg
-  | Second Position.Msg
-  | Third Position.Msg
+  | Select Int Position.Msg
 
 update : Msg -> Model -> Model
 update msg model =
@@ -48,14 +60,12 @@ update msg model =
     Reset ->
       init
 
-    First msg ->
-      { model | positionOne = Position.update msg model.positionOne }
+    Select id msg ->
+      { model | positions = List.map (updateHelp id msg) model.positions }
 
-    Second msg ->
-      { model | positionTwo = Position.update msg model.positionTwo }
-
-    Third msg ->
-      { model | positionThree = Position.update msg model.positionThree }
+updateHelp : Int -> Position.Msg -> IndexedPosition -> IndexedPosition
+updateHelp targetId msg {id, pos, model}  =
+  IndexedPosition id pos (if targetId == id then Position.update msg model else model)
 
 -- VIEW
 
@@ -69,17 +79,13 @@ view model =
     , div [ teamStyle ] [ text "O" ]
     ]
   , div []
-      [
-      div []
-        [ div []
-          [ App.map First (Position.view model.positionOne)
-          , App.map Second (Position.view model.positionTwo)
-          , App.map Third (Position.view model.positionThree)
-          ]
-        ]
-      ]
+    ( List.map viewIndexedPosition model.positions )
   , button [ onClick Reset ] [ text "RESET" ]
   ]
+
+viewIndexedPosition : IndexedPosition -> Html Msg
+viewIndexedPosition {id, pos, model} =
+  App.map (Select id) (Position.view model)
 
 
 -- styles
@@ -89,10 +95,10 @@ outerContainer =
     [ ("font-size", "20px")
     , ("font-family", "monospace")
     , ("display", "block")
-    , ("width", "100%")
+    , ("width", "300px")
     , ("height", "100%")
     , ("text-align", "center")
-    , ("border", "3px solid black")
+    , ("margin", "0 auto")
     ]
 
 teamsStyle : Html.Attribute msg

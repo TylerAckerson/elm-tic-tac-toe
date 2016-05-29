@@ -1,7 +1,7 @@
 module Position exposing (Model, Msg, init, update, view)
 
 import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, on, onSubmit)
 import Html.Attributes as Attr
 
 
@@ -30,7 +30,10 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  button [ onClick Select, squareStyle ] [ text model ]
+  button [ onClick Select
+         , squareStyle
+         ]
+         [ text model ]
 
 squareStyle : Html.Attribute msg
 squareStyle =
