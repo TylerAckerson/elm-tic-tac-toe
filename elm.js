@@ -7219,16 +7219,6 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _user$project$Position$squareStyle = _elm_lang$html$Html_Attributes$style(
-	_elm_lang$core$Native_List.fromArray(
-		[
-			{ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
-			{ctor: '_Tuple2', _0: 'width', _1: '100px'},
-			{ctor: '_Tuple2', _0: 'height', _1: '100px'},
-			{ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
-			{ctor: '_Tuple2', _0: 'border', _1: '1px solid cornflowerblue'},
-			{ctor: '_Tuple2', _0: 'background', _1: 'none'}
-		]));
 var _user$project$Position$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
@@ -7244,7 +7234,7 @@ var _user$project$Position$view = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_elm_lang$html$Html_Events$onClick(_user$project$Position$Select),
-				_user$project$Position$squareStyle
+				_elm_lang$html$Html_Attributes$class('position')
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -7252,30 +7242,9 @@ var _user$project$Position$view = function (model) {
 			]));
 };
 
-var _user$project$TTT$teamStyle = _elm_lang$html$Html_Attributes$style(
-	_elm_lang$core$Native_List.fromArray(
-		[
-			{ctor: '_Tuple2', _0: 'display', _1: 'inline'}
-		]));
-var _user$project$TTT$teamsStyle = _elm_lang$html$Html_Attributes$style(
-	_elm_lang$core$Native_List.fromArray(
-		[
-			{ctor: '_Tuple2', _0: 'padding', _1: '20px'}
-		]));
-var _user$project$TTT$outerContainer = _elm_lang$html$Html_Attributes$style(
-	_elm_lang$core$Native_List.fromArray(
-		[
-			{ctor: '_Tuple2', _0: 'font-size', _1: '20px'},
-			{ctor: '_Tuple2', _0: 'font-family', _1: 'monospace'},
-			{ctor: '_Tuple2', _0: 'display', _1: 'block'},
-			{ctor: '_Tuple2', _0: 'width', _1: '300px'},
-			{ctor: '_Tuple2', _0: 'height', _1: '100%'},
-			{ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
-			{ctor: '_Tuple2', _0: 'margin', _1: '0 auto'}
-		]));
-var _user$project$TTT$Model = F2(
-	function (a, b) {
-		return {positions: a, teams: b};
+var _user$project$TTT$Model = F3(
+	function (a, b, c) {
+		return {positions: a, teams: b, current: c};
 	});
 var _user$project$TTT$IndexedPosition = F3(
 	function (a, b, c) {
@@ -7331,7 +7300,8 @@ var _user$project$TTT$init = {
 			_user$project$Position$init(' '))
 		]),
 	teams: _elm_lang$core$Native_List.fromArray(
-		['X', 'O'])
+		['X', 'O']),
+	current: 'X'
 };
 var _user$project$TTT$updateHelp = F3(
 	function (targetId, msg, _p0) {
@@ -7373,22 +7343,29 @@ var _user$project$TTT$viewIndexedPosition = function (_p5) {
 };
 var _user$project$TTT$Reset = {ctor: 'Reset'};
 var _user$project$TTT$view = function (model) {
+	var positions = A2(_elm_lang$core$List$map, _user$project$TTT$viewIndexedPosition, model.positions);
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[_user$project$TTT$outerContainer]),
+			[
+				_elm_lang$html$Html_Attributes$id('tic-tac-toe')
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
-					[_user$project$TTT$teamsStyle]),
+					[
+						_elm_lang$html$Html_Attributes$class('teams')
+					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
 						A2(
 						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
-							[_user$project$TTT$teamStyle]),
+							[
+								_elm_lang$html$Html_Attributes$class('team')
+							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html$text('Teams: ')
@@ -7396,7 +7373,9 @@ var _user$project$TTT$view = function (model) {
 						A2(
 						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
-							[_user$project$TTT$teamStyle]),
+							[
+								_elm_lang$html$Html_Attributes$class('team')
+							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html$text('X')
@@ -7404,7 +7383,9 @@ var _user$project$TTT$view = function (model) {
 						A2(
 						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
-							[_user$project$TTT$teamStyle]),
+							[
+								_elm_lang$html$Html_Attributes$class('team')
+							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html$text('   ')
@@ -7412,7 +7393,9 @@ var _user$project$TTT$view = function (model) {
 						A2(
 						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
-							[_user$project$TTT$teamStyle]),
+							[
+								_elm_lang$html$Html_Attributes$class('team')
+							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html$text('O')
@@ -7422,7 +7405,7 @@ var _user$project$TTT$view = function (model) {
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[]),
-				A2(_elm_lang$core$List$map, _user$project$TTT$viewIndexedPosition, model.positions)),
+				positions),
 				A2(
 				_elm_lang$html$Html$button,
 				_elm_lang$core$Native_List.fromArray(

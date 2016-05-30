@@ -5,7 +5,7 @@ import Html exposing (Html, button, div, text)
 import Html.App as App
 import Array
 import Html.Events exposing (onClick)
-import Html.Attributes as Attr
+import Html.Attributes exposing (..)
 
 main =
   App.beginnerProgram
@@ -19,6 +19,7 @@ main =
 type alias Model =
   { positions : List IndexedPosition
   , teams : List Team
+  , current : Team
   }
 
 type alias IndexedPosition =
@@ -44,6 +45,7 @@ init =
     , IndexedPosition 8 (2, 2) (Position.init " ")
     ]
   , teams = [ "X", "O" ]
+  , current = "X"
   }
 
 
@@ -71,44 +73,21 @@ updateHelp targetId msg {id, pos, model}  =
 
 view : Model -> Html Msg
 view model =
-  div [ outerContainer ] [
-    div [ teamsStyle ] [
-      div [ teamStyle ] [ text "Teams: " ]
-    , div [ teamStyle ] [ text "X" ]
-    , div [ teamStyle ] [ text "   " ]
-    , div [ teamStyle ] [ text "O" ]
+  let
+    positions = List.map viewIndexedPosition model.positions
+  in
+    div [ id "tic-tac-toe" ] [
+      div [ class "teams" ] [
+        div [ class "team" ] [ text "Teams: " ]
+      , div [ class "team" ] [ text "X" ]
+      , div [ class "team" ] [ text "   " ]
+      , div [ class "team" ] [ text "O" ]
+      ]
+    , div []
+      ( positions )
+    , button [ onClick Reset ] [ text "RESET" ]
     ]
-  , div []
-    ( List.map viewIndexedPosition model.positions )
-  , button [ onClick Reset ] [ text "RESET" ]
-  ]
 
 viewIndexedPosition : IndexedPosition -> Html Msg
 viewIndexedPosition {id, pos, model} =
   App.map (Select id) (Position.view model)
-
-
--- styles
-outerContainer : Html.Attribute msg
-outerContainer =
-  Attr.style
-    [ ("font-size", "20px")
-    , ("font-family", "monospace")
-    , ("display", "block")
-    , ("width", "300px")
-    , ("height", "100%")
-    , ("text-align", "center")
-    , ("margin", "0 auto")
-    ]
-
-teamsStyle : Html.Attribute msg
-teamsStyle =
-  Attr.style
-    [ ("padding", "20px")
-    ]
-
-teamStyle : Html.Attribute msg
-teamStyle =
-  Attr.style
-    [ ("display", "inline")
-    ]
