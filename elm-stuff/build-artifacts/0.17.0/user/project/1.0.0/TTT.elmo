@@ -1,6 +1,6 @@
-var _user$project$TTT$Model = F3(
-	function (a, b, c) {
-		return {positions: a, teams: b, current: c};
+var _user$project$TTT$Model = F2(
+	function (a, b) {
+		return {positions: a, current: b};
 	});
 var _user$project$TTT$IndexedPosition = F3(
 	function (a, b, c) {
@@ -13,54 +13,52 @@ var _user$project$TTT$init = {
 			_user$project$TTT$IndexedPosition,
 			0,
 			{ctor: '_Tuple2', _0: 0, _1: 0},
-			_user$project$Position$init(' ')),
+			_user$project$Position$init('_')),
 			A3(
 			_user$project$TTT$IndexedPosition,
 			1,
 			{ctor: '_Tuple2', _0: 0, _1: 1},
-			_user$project$Position$init(' ')),
+			_user$project$Position$init('_')),
 			A3(
 			_user$project$TTT$IndexedPosition,
 			2,
 			{ctor: '_Tuple2', _0: 0, _1: 2},
-			_user$project$Position$init(' ')),
+			_user$project$Position$init('_')),
 			A3(
 			_user$project$TTT$IndexedPosition,
 			3,
 			{ctor: '_Tuple2', _0: 1, _1: 0},
-			_user$project$Position$init(' ')),
+			_user$project$Position$init('_')),
 			A3(
 			_user$project$TTT$IndexedPosition,
 			4,
 			{ctor: '_Tuple2', _0: 1, _1: 1},
-			_user$project$Position$init(' ')),
+			_user$project$Position$init('_')),
 			A3(
 			_user$project$TTT$IndexedPosition,
 			5,
 			{ctor: '_Tuple2', _0: 1, _1: 2},
-			_user$project$Position$init(' ')),
+			_user$project$Position$init('_')),
 			A3(
 			_user$project$TTT$IndexedPosition,
 			6,
 			{ctor: '_Tuple2', _0: 2, _1: 0},
-			_user$project$Position$init(' ')),
+			_user$project$Position$init('_')),
 			A3(
 			_user$project$TTT$IndexedPosition,
 			7,
 			{ctor: '_Tuple2', _0: 2, _1: 1},
-			_user$project$Position$init(' ')),
+			_user$project$Position$init('_')),
 			A3(
 			_user$project$TTT$IndexedPosition,
 			8,
 			{ctor: '_Tuple2', _0: 2, _1: 2},
-			_user$project$Position$init(' '))
+			_user$project$Position$init('_'))
 		]),
-	teams: _elm_lang$core$Native_List.fromArray(
-		['X', 'O']),
 	current: 'X'
 };
-var _user$project$TTT$updateHelp = F3(
-	function (targetId, msg, _p0) {
+var _user$project$TTT$updateHelp = F4(
+	function (targetId, player, msg, _p0) {
 		var _p1 = _p0;
 		var _p3 = _p1.model;
 		var _p2 = _p1.id;
@@ -68,7 +66,7 @@ var _user$project$TTT$updateHelp = F3(
 			_user$project$TTT$IndexedPosition,
 			_p2,
 			_p1.pos,
-			_elm_lang$core$Native_Utils.eq(targetId, _p2) ? A2(_user$project$Position$update, msg, _p3) : _p3);
+			_elm_lang$core$Native_Utils.eq(targetId, _p2) ? A3(_user$project$Position$update, msg, player, _p3) : _p3);
 	});
 var _user$project$TTT$update = F2(
 	function (msg, model) {
@@ -81,8 +79,9 @@ var _user$project$TTT$update = F2(
 				{
 					positions: A2(
 						_elm_lang$core$List$map,
-						A2(_user$project$TTT$updateHelp, _p4._0, _p4._1),
-						model.positions)
+						A3(_user$project$TTT$updateHelp, _p4._0, model.current, _p4._1),
+						model.positions),
+					current: _elm_lang$core$Native_Utils.eq(model.current, 'X') ? 'O' : 'X'
 				});
 		}
 	});
@@ -112,55 +111,28 @@ var _user$project$TTT$view = function (model) {
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$class('teams')
+						_elm_lang$html$Html_Attributes$class('current')
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$class('team')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Teams: ')
-							])),
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$class('team')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('X')
-							])),
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$class('team')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('   ')
-							])),
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$class('team')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('O')
-							]))
+						_elm_lang$html$Html$text('Current player: ')
 					])),
 				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
-					[]),
+					[
+						_elm_lang$html$Html_Attributes$class('player')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(model.current)
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('board')
+					]),
 				positions),
 				A2(
 				_elm_lang$html$Html$button,

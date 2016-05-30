@@ -19,16 +19,16 @@ init value =
 type Msg
   = Select
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> String -> Model -> Model
+update msg player model =
   case msg of
     Select ->
-      "X"
+      player
 
 
 -- VIEW
 
 view : Model -> Html Msg
 view model =
-  button [ onClick Select, class "position" ]
-         [ text model ]
+  div [ onClick Select, class "position" ]
+   [ text model ]

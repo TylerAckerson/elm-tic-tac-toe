@@ -1,7 +1,7 @@
-var _user$project$Position$update = F2(
-	function (msg, model) {
+var _user$project$Position$update = F3(
+	function (msg, player, model) {
 		var _p0 = msg;
-		return 'X';
+		return player;
 	});
 var _user$project$Position$init = function (value) {
 	return value;
@@ -9,7 +9,7 @@ var _user$project$Position$init = function (value) {
 var _user$project$Position$Select = {ctor: 'Select'};
 var _user$project$Position$view = function (model) {
 	return A2(
-		_elm_lang$html$Html$button,
+		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_elm_lang$html$Html_Events$onClick(_user$project$Position$Select),

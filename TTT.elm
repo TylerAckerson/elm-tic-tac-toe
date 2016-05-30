@@ -18,7 +18,6 @@ main =
 
 type alias Model =
   { positions : List IndexedPosition
-  , teams : List Team
   , current : Team
   }
 
@@ -34,17 +33,16 @@ type alias Team = String
 init : Model
 init =
   { positions =
-    [ IndexedPosition 0 (0, 0) (Position.init " ")
-    , IndexedPosition 1 (0, 1) (Position.init " ")
-    , IndexedPosition 2 (0, 2) (Position.init " ")
-    , IndexedPosition 3 (1, 0) (Position.init " ")
-    , IndexedPosition 4 (1, 1) (Position.init " ")
-    , IndexedPosition 5 (1, 2) (Position.init " ")
-    , IndexedPosition 6 (2, 0) (Position.init " ")
-    , IndexedPosition 7 (2, 1) (Position.init " ")
-    , IndexedPosition 8 (2, 2) (Position.init " ")
+    [ IndexedPosition 0 (0, 0) (Position.init "_")
+    , IndexedPosition 1 (0, 1) (Position.init "_")
+    , IndexedPosition 2 (0, 2) (Position.init "_")
+    , IndexedPosition 3 (1, 0) (Position.init "_")
+    , IndexedPosition 4 (1, 1) (Position.init "_")
+    , IndexedPosition 5 (1, 2) (Position.init "_")
+    , IndexedPosition 6 (2, 0) (Position.init "_")
+    , IndexedPosition 7 (2, 1) (Position.init "_")
+    , IndexedPosition 8 (2, 2) (Position.init "_")
     ]
-  , teams = [ "X", "O" ]
   , current = "X"
   }
 
@@ -63,11 +61,14 @@ update msg model =
       init
 
     Select id msg ->
-      { model | positions = List.map (updateHelp id msg) model.positions }
+      { model
+        | positions = List.map (updateHelp id model.current msg) model.positions
+        , current = (if model.current == "X" then "O" else "X")
+      }
 
-updateHelp : Int -> Position.Msg -> IndexedPosition -> IndexedPosition
-updateHelp targetId msg {id, pos, model}  =
-  IndexedPosition id pos (if targetId == id then Position.update msg model else model)
+updateHelp : Int -> Team -> Position.Msg -> IndexedPosition -> IndexedPosition
+updateHelp targetId player msg {id, pos, model}  =
+  IndexedPosition id pos (if targetId == id then Position.update msg player model else model)
 
 -- VIEW
 
@@ -76,17 +77,13 @@ view model =
   let
     positions = List.map viewIndexedPosition model.positions
   in
-    div [ id "tic-tac-toe" ] [
-      div [ class "teams" ] [
-        div [ class "team" ] [ text "Teams: " ]
-      , div [ class "team" ] [ text "X" ]
-      , div [ class "team" ] [ text "   " ]
-      , div [ class "team" ] [ text "O" ]
+    div [ id "tic-tac-toe" ]
+      [ div [ class "current" ] [ text "Current player: " ]
+      , div [ class "player" ] [ text model.current ]
+      , div [ class "board"]
+        ( positions )
+      , button [ onClick Reset ] [ text "RESET" ]
       ]
-    , div []
-      ( positions )
-    , button [ onClick Reset ] [ text "RESET" ]
-    ]
 
 viewIndexedPosition : IndexedPosition -> Html Msg
 viewIndexedPosition {id, pos, model} =
