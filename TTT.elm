@@ -52,6 +52,7 @@ init =
 type Msg
   = Reset
   | Select Int Position.Msg
+  | NoOp Position.Msg
 
 update : Msg -> Model -> Model
 update msg model =
@@ -65,6 +66,9 @@ update msg model =
         | positions = List.map (updateHelp id model.current msg) model.positions
         , current = (if model.current == "X" then "O" else "X")
       }
+
+    NoOp msg ->
+      model
 
 updateHelp : Int -> Team -> Position.Msg -> IndexedPosition -> IndexedPosition
 updateHelp targetId player msg {id, pos, model}  =
@@ -87,4 +91,4 @@ view model =
 
 viewIndexedPosition : IndexedPosition -> Html Msg
 viewIndexedPosition {id, pos, model} =
-  App.map (Select id) (Position.view model)
+  App.map (if model == "_" then Select id else NoOp) (Position.view model)

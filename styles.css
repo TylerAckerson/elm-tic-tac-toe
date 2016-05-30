@@ -26,17 +26,15 @@ body {
 .position {
   display: inline-block;
   width: 100px;
-  height: 100px;
   border: 1px solid cornflowerblue;
   background: none;
-  font-size: 80px;
-  /*color: white;*/
+  font-size: 84px;
 }
 
-.position.selected {
-  color: black;
+.position.open {
+  color: transparent;
 }
 
-.position:hover {
+.position.open:hover {
   background: yellow;
 }

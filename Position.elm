@@ -30,5 +30,5 @@ update msg player model =
 
 view : Model -> Html Msg
 view model =
-  div [ onClick Select, class "position" ]
+  div [ onClick Select, classList  [ ( "position", model == model), ( "open", model == "_" ) ] ]
    [ text model ]

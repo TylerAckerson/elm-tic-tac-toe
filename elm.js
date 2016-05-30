@@ -7234,7 +7234,20 @@ var _user$project$Position$view = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_elm_lang$html$Html_Events$onClick(_user$project$Position$Select),
-				_elm_lang$html$Html_Attributes$class('position')
+				_elm_lang$html$Html_Attributes$classList(
+				_elm_lang$core$Native_List.fromArray(
+					[
+						{
+						ctor: '_Tuple2',
+						_0: 'position',
+						_1: _elm_lang$core$Native_Utils.eq(model, model)
+					},
+						{
+						ctor: '_Tuple2',
+						_0: 'open',
+						_1: _elm_lang$core$Native_Utils.eq(model, '_')
+					}
+					]))
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -7315,30 +7328,37 @@ var _user$project$TTT$updateHelp = F4(
 var _user$project$TTT$update = F2(
 	function (msg, model) {
 		var _p4 = msg;
-		if (_p4.ctor === 'Reset') {
-			return _user$project$TTT$init;
-		} else {
-			return _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					positions: A2(
-						_elm_lang$core$List$map,
-						A3(_user$project$TTT$updateHelp, _p4._0, model.current, _p4._1),
-						model.positions),
-					current: _elm_lang$core$Native_Utils.eq(model.current, 'X') ? 'O' : 'X'
-				});
+		switch (_p4.ctor) {
+			case 'Reset':
+				return _user$project$TTT$init;
+			case 'Select':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						positions: A2(
+							_elm_lang$core$List$map,
+							A3(_user$project$TTT$updateHelp, _p4._0, model.current, _p4._1),
+							model.positions),
+						current: _elm_lang$core$Native_Utils.eq(model.current, 'X') ? 'O' : 'X'
+					});
+			default:
+				return model;
 		}
 	});
+var _user$project$TTT$NoOp = function (a) {
+	return {ctor: 'NoOp', _0: a};
+};
 var _user$project$TTT$Select = F2(
 	function (a, b) {
 		return {ctor: 'Select', _0: a, _1: b};
 	});
 var _user$project$TTT$viewIndexedPosition = function (_p5) {
 	var _p6 = _p5;
+	var _p7 = _p6.model;
 	return A2(
 		_elm_lang$html$Html_App$map,
-		_user$project$TTT$Select(_p6.id),
-		_user$project$Position$view(_p6.model));
+		_elm_lang$core$Native_Utils.eq(_p7, '_') ? _user$project$TTT$Select(_p6.id) : _user$project$TTT$NoOp,
+		_user$project$Position$view(_p7));
 };
 var _user$project$TTT$Reset = {ctor: 'Reset'};
 var _user$project$TTT$view = function (model) {
