@@ -6,7 +6,7 @@ body {
 
 #tic-tac-toe {
   text-align: center;
-  width: 306px;
+  width: 330px;
   margin: 20px auto;
   font-family: monospace;
 }
@@ -26,26 +26,42 @@ body {
 }
 
 .player {
-  padding: 10px;
-  font-size: 32px;
+  font-size: 84px;
   font-family: monospace;
 }
 
 .position {
   display: inline-block;
   width: 100px;
-  border: 1px solid cornflowerblue;
-  background: none;
+  border: 5px solid white;
+  border-radius: 10px;
+  background: cadetblue;
   font-size: 84px;
 }
 
 .position.open {
   color: transparent;
   cursor: pointer;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;
+
+  position: relative;
 }
 
 .position.open:hover {
-  background: yellow;
+  background: coral;
+}
+
+.position.open:hover:before {
+  content: "[]";
+  color: black;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0,0,0,0.2);
+  color: white;
 }
 
 .game-over {
