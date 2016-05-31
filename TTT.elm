@@ -3,7 +3,8 @@ module TTT exposing (main)
 import Position
 import Html exposing (Html, button, div, text)
 import Html.App as App
-import Array
+import Array exposing (..)
+import List exposing (..)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (..)
 
@@ -19,6 +20,7 @@ main =
 type alias Model =
   { positions : List IndexedPosition
   , current : Team
+  , gameOver : Bool
   }
 
 type alias IndexedPosition =
@@ -28,23 +30,23 @@ type alias IndexedPosition =
   }
 
 type alias Team = String
+type alias Coord = (Int, Int)
 
   -- Model
 init : Model
 init =
-  { positions =
-    [ IndexedPosition 0 (0, 0) (Position.init "_")
-    , IndexedPosition 1 (0, 1) (Position.init "_")
-    , IndexedPosition 2 (0, 2) (Position.init "_")
-    , IndexedPosition 3 (1, 0) (Position.init "_")
-    , IndexedPosition 4 (1, 1) (Position.init "_")
-    , IndexedPosition 5 (1, 2) (Position.init "_")
-    , IndexedPosition 6 (2, 0) (Position.init "_")
-    , IndexedPosition 7 (2, 1) (Position.init "_")
-    , IndexedPosition 8 (2, 2) (Position.init "_")
-    ]
+  { positions = List.map (modelHelp) [0..8]
   , current = "X"
+  , gameOver = False
   }
+
+modelHelp : Int -> IndexedPosition
+modelHelp id =
+  IndexedPosition id (coordHelp id) (Position.init "_")
+
+coordHelp : Int -> Coord
+coordHelp id = -- TODO: this isn't pretty. look into modulo
+  ((id // 3), (rem id 3))
 
 
 -- UPDATE
@@ -65,6 +67,7 @@ update msg model =
       { model
         | positions = List.map (updateHelp id model.current msg) model.positions
         , current = (if model.current == "X" then "O" else "X")
+        , gameOver = isGameOver model
       }
 
     NoOp msg ->
@@ -73,6 +76,61 @@ update msg model =
 updateHelp : Int -> Team -> Position.Msg -> IndexedPosition -> IndexedPosition
 updateHelp targetId player msg {id, pos, model}  =
   IndexedPosition id pos (if targetId == id then Position.update msg player model else model)
+
+isGameOver : Model -> Bool
+isGameOver model =
+  if (checkRows model || checkColumns model || checkCrosses model) then True else False
+
+checkRows : Model -> Bool
+checkRows model =
+  let top = take 3 model.positions
+      mid = drop 3 <| take 6 model.positions
+      bottom = drop 3 model.positions
+  in
+    if
+      (all (\x -> x.model == "X") top || all (\x -> x.model == "O") top)
+      then True
+    else if
+      (all (\x -> x.model == "X") mid || all (\x -> x.model == "O") mid)
+      then True
+    else if
+      (all (\x -> x.model == "X") bottom || all (\x -> x.model == "O") bottom)
+      then True
+    else
+      False
+
+checkColumns : Model -> Bool
+checkColumns model =
+  let left = List.filter (\x -> rem x.id 3 == 0) model.positions
+      mid = List.filter (\x -> rem x.id 3 == 1) model.positions
+      right = List.filter (\x -> rem x.id 3 == 2) model.positions
+  in
+    if
+      (all (\x -> x.model == "X") left || all (\x -> x.model == "O") left)
+      then True
+    else if
+      (all (\x -> x.model == "X") mid || all (\x -> x.model == "O") mid)
+      then True
+    else if
+      (all (\x -> x.model == "X") right || all (\x -> x.model == "O") right)
+      then True
+    else
+      False
+
+checkCrosses : Model -> Bool
+checkCrosses model =
+    let leftToRight = List.filter (\x -> x.id == 0 || x.id == 4 || x.id == 8) model.positions
+        rightToLeft = List.filter (\x -> x.id == 2 || x.id == 4 || x.id == 6) model.positions
+    in
+      if
+        (all (\x -> x.model == "X") leftToRight || all (\x -> x.model == "O") leftToRight)
+        then True
+      else if
+        (all (\x -> x.model == "X") rightToLeft || all (\x -> x.model == "O") rightToLeft)
+        then True
+      else
+        False
+
 
 -- VIEW
 
@@ -87,6 +145,7 @@ view model =
       , div [ class "board"]
         ( positions )
       , button [ onClick Reset ] [ text "RESET" ]
+      , div [ class "status" ] [ text (if model.gameOver == True then "Game over" else "Playing") ]
       ]
 
 viewIndexedPosition : IndexedPosition -> Html Msg

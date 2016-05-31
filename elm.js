@@ -7255,64 +7255,169 @@ var _user$project$Position$view = function (model) {
 			]));
 };
 
-var _user$project$TTT$Model = F2(
-	function (a, b) {
-		return {positions: a, current: b};
+var _user$project$TTT$checkCrosses = function (model) {
+	var rightToLeft = A2(
+		_elm_lang$core$List$filter,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.id, 2) || (_elm_lang$core$Native_Utils.eq(x.id, 4) || _elm_lang$core$Native_Utils.eq(x.id, 6));
+		},
+		model.positions);
+	var leftToRight = A2(
+		_elm_lang$core$List$filter,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.id, 0) || (_elm_lang$core$Native_Utils.eq(x.id, 4) || _elm_lang$core$Native_Utils.eq(x.id, 8));
+		},
+		model.positions);
+	return (A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'X');
+		},
+		leftToRight) || A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'O');
+		},
+		leftToRight)) ? true : ((A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'X');
+		},
+		rightToLeft) || A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'O');
+		},
+		rightToLeft)) ? true : false);
+};
+var _user$project$TTT$checkColumns = function (model) {
+	var right = A2(
+		_elm_lang$core$List$filter,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(
+				A2(_elm_lang$core$Basics$rem, x.id, 3),
+				2);
+		},
+		model.positions);
+	var mid = A2(
+		_elm_lang$core$List$filter,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(
+				A2(_elm_lang$core$Basics$rem, x.id, 3),
+				1);
+		},
+		model.positions);
+	var left = A2(
+		_elm_lang$core$List$filter,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(
+				A2(_elm_lang$core$Basics$rem, x.id, 3),
+				0);
+		},
+		model.positions);
+	return (A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'X');
+		},
+		left) || A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'O');
+		},
+		left)) ? true : ((A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'X');
+		},
+		mid) || A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'O');
+		},
+		mid)) ? true : ((A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'X');
+		},
+		right) || A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'O');
+		},
+		right)) ? true : false));
+};
+var _user$project$TTT$checkRows = function (model) {
+	var bottom = A2(_elm_lang$core$List$drop, 3, model.positions);
+	var mid = A2(
+		_elm_lang$core$List$drop,
+		3,
+		A2(_elm_lang$core$List$take, 6, model.positions));
+	var top = A2(_elm_lang$core$List$take, 3, model.positions);
+	return (A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'X');
+		},
+		top) || A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'O');
+		},
+		top)) ? true : ((A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'X');
+		},
+		mid) || A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'O');
+		},
+		mid)) ? true : ((A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'X');
+		},
+		bottom) || A2(
+		_elm_lang$core$List$all,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.model, 'O');
+		},
+		bottom)) ? true : false));
+};
+var _user$project$TTT$isGameOver = function (model) {
+	return (_user$project$TTT$checkRows(model) || (_user$project$TTT$checkColumns(model) || _user$project$TTT$checkCrosses(model))) ? true : false;
+};
+var _user$project$TTT$coordHelp = function (id) {
+	return {
+		ctor: '_Tuple2',
+		_0: (id / 3) | 0,
+		_1: A2(_elm_lang$core$Basics$rem, id, 3)
+	};
+};
+var _user$project$TTT$Model = F3(
+	function (a, b, c) {
+		return {positions: a, current: b, gameOver: c};
 	});
 var _user$project$TTT$IndexedPosition = F3(
 	function (a, b, c) {
 		return {id: a, pos: b, model: c};
 	});
+var _user$project$TTT$modelHelp = function (id) {
+	return A3(
+		_user$project$TTT$IndexedPosition,
+		id,
+		_user$project$TTT$coordHelp(id),
+		_user$project$Position$init('_'));
+};
 var _user$project$TTT$init = {
-	positions: _elm_lang$core$Native_List.fromArray(
-		[
-			A3(
-			_user$project$TTT$IndexedPosition,
-			0,
-			{ctor: '_Tuple2', _0: 0, _1: 0},
-			_user$project$Position$init('_')),
-			A3(
-			_user$project$TTT$IndexedPosition,
-			1,
-			{ctor: '_Tuple2', _0: 0, _1: 1},
-			_user$project$Position$init('_')),
-			A3(
-			_user$project$TTT$IndexedPosition,
-			2,
-			{ctor: '_Tuple2', _0: 0, _1: 2},
-			_user$project$Position$init('_')),
-			A3(
-			_user$project$TTT$IndexedPosition,
-			3,
-			{ctor: '_Tuple2', _0: 1, _1: 0},
-			_user$project$Position$init('_')),
-			A3(
-			_user$project$TTT$IndexedPosition,
-			4,
-			{ctor: '_Tuple2', _0: 1, _1: 1},
-			_user$project$Position$init('_')),
-			A3(
-			_user$project$TTT$IndexedPosition,
-			5,
-			{ctor: '_Tuple2', _0: 1, _1: 2},
-			_user$project$Position$init('_')),
-			A3(
-			_user$project$TTT$IndexedPosition,
-			6,
-			{ctor: '_Tuple2', _0: 2, _1: 0},
-			_user$project$Position$init('_')),
-			A3(
-			_user$project$TTT$IndexedPosition,
-			7,
-			{ctor: '_Tuple2', _0: 2, _1: 1},
-			_user$project$Position$init('_')),
-			A3(
-			_user$project$TTT$IndexedPosition,
-			8,
-			{ctor: '_Tuple2', _0: 2, _1: 2},
-			_user$project$Position$init('_'))
-		]),
-	current: 'X'
+	positions: A2(
+		_elm_lang$core$List$map,
+		_user$project$TTT$modelHelp,
+		_elm_lang$core$Native_List.range(0, 8)),
+	current: 'X',
+	gameOver: false
 };
 var _user$project$TTT$updateHelp = F4(
 	function (targetId, player, msg, _p0) {
@@ -7339,7 +7444,8 @@ var _user$project$TTT$update = F2(
 							_elm_lang$core$List$map,
 							A3(_user$project$TTT$updateHelp, _p4._0, model.current, _p4._1),
 							model.positions),
-						current: _elm_lang$core$Native_Utils.eq(model.current, 'X') ? 'O' : 'X'
+						current: _elm_lang$core$Native_Utils.eq(model.current, 'X') ? 'O' : 'X',
+						gameOver: _user$project$TTT$isGameOver(model)
 					});
 			default:
 				return model;
@@ -7407,6 +7513,17 @@ var _user$project$TTT$view = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html$text('RESET')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('status')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_elm_lang$core$Native_Utils.eq(model.gameOver, true) ? 'Game over' : 'Playing')
 					]))
 			]));
 };
