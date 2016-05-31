@@ -216,7 +216,16 @@ var _user$project$TTT$view = function (model) {
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html_Attributes$id('tic-tac-toe')
+				_elm_lang$html$Html_Attributes$id('tic-tac-toe'),
+				_elm_lang$html$Html_Attributes$classList(
+				_elm_lang$core$Native_List.fromArray(
+					[
+						{
+						ctor: '_Tuple2',
+						_0: 'game-over',
+						_1: _elm_lang$core$Native_Utils.eq(model.gameOver, true)
+					}
+					]))
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -248,25 +257,46 @@ var _user$project$TTT$view = function (model) {
 					]),
 				positions),
 				A2(
-				_elm_lang$html$Html$button,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Events$onClick(_user$project$TTT$Reset)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text('RESET')
-					])),
-				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$class('status')
+						_elm_lang$html$Html_Attributes$classList(
+						_elm_lang$core$Native_List.fromArray(
+							[
+								{
+								ctor: '_Tuple2',
+								_0: 'hidden',
+								_1: _elm_lang$core$Native_Utils.eq(model.gameOver, false)
+							},
+								{
+								ctor: '_Tuple2',
+								_0: 'game-over',
+								_1: _elm_lang$core$Native_Utils.eq(model.gameOver, true)
+							}
+							]))
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text(
-						_elm_lang$core$Native_Utils.eq(model.gameOver, true) ? 'Game over' : 'Playing')
+						_elm_lang$html$Html$text('Game over!')
+					])),
+				A2(
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onClick(_user$project$TTT$Reset),
+						_elm_lang$html$Html_Attributes$classList(
+						_elm_lang$core$Native_List.fromArray(
+							[
+								{
+								ctor: '_Tuple2',
+								_0: 'hidden',
+								_1: _elm_lang$core$Native_Utils.eq(model.gameOver, false)
+							}
+							]))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Play again?')
 					]))
 			]));
 };

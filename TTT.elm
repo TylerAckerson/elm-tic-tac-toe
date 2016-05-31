@@ -139,13 +139,13 @@ view model =
   let
     positions = List.map viewIndexedPosition model.positions
   in
-    div [ id "tic-tac-toe" ]
+    div [ id "tic-tac-toe", classList [ ( "game-over", model.gameOver == True ) ] ]
       [ div [ class "current" ] [ text "Current player: " ]
       , div [ class "player" ] [ text model.current ]
       , div [ class "board"]
         ( positions )
-      , button [ onClick Reset ] [ text "RESET" ]
-      , div [ class "status" ] [ text (if model.gameOver == True then "Game over" else "Playing") ]
+      , div [ classList [ ( "hidden", model.gameOver == False ), ("game-over", model.gameOver == True) ]] [ text "Game over!" ]
+      , button [ onClick Reset, classList [ ( "hidden", model.gameOver == False ) ] ] [ text "Play again?" ]
       ]
 
 viewIndexedPosition : IndexedPosition -> Html Msg
