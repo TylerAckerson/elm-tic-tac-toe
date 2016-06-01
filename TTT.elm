@@ -85,7 +85,7 @@ checkRows : Model -> Bool
 checkRows model =
   let top = take 3 model.positions
       mid = drop 3 <| take 6 model.positions
-      bottom = drop 3 model.positions
+      bottom = drop 6 model.positions
   in
     if
       (all (\x -> x.model == "X") top || all (\x -> x.model == "O") top)

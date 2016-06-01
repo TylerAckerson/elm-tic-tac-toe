@@ -91,7 +91,7 @@ var _user$project$TTT$checkColumns = function (model) {
 		right)) ? true : false));
 };
 var _user$project$TTT$checkRows = function (model) {
-	var bottom = A2(_elm_lang$core$List$drop, 3, model.positions);
+	var bottom = A2(_elm_lang$core$List$drop, 6, model.positions);
 	var mid = A2(
 		_elm_lang$core$List$drop,
 		3,
