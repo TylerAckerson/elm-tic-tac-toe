@@ -224,8 +224,14 @@ var _user$project$TTT$view = function (model) {
 						ctor: '_Tuple2',
 						_0: 'game-over',
 						_1: _elm_lang$core$Native_Utils.eq(model.gameOver, true)
+					},
+						{
+						ctor: '_Tuple2',
+						_0: 'in-progress',
+						_1: _elm_lang$core$Native_Utils.eq(model.gameOver, false)
 					}
-					]))
+					])),
+				A2(_elm_lang$html$Html_Attributes$attribute, 'data-current', model.current)
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
