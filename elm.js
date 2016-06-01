@@ -7255,19 +7255,19 @@ var _user$project$Position$view = function (model) {
 			]));
 };
 
-var _user$project$TTT$checkCrosses = function (model) {
+var _user$project$TTT$checkCrosses = function (positions) {
 	var rightToLeft = A2(
 		_elm_lang$core$List$filter,
 		function (x) {
 			return _elm_lang$core$Native_Utils.eq(x.id, 2) || (_elm_lang$core$Native_Utils.eq(x.id, 4) || _elm_lang$core$Native_Utils.eq(x.id, 6));
 		},
-		model.positions);
+		positions);
 	var leftToRight = A2(
 		_elm_lang$core$List$filter,
 		function (x) {
 			return _elm_lang$core$Native_Utils.eq(x.id, 0) || (_elm_lang$core$Native_Utils.eq(x.id, 4) || _elm_lang$core$Native_Utils.eq(x.id, 8));
 		},
-		model.positions);
+		positions);
 	return (A2(
 		_elm_lang$core$List$all,
 		function (x) {
@@ -7290,7 +7290,7 @@ var _user$project$TTT$checkCrosses = function (model) {
 		},
 		rightToLeft)) ? true : false);
 };
-var _user$project$TTT$checkColumns = function (model) {
+var _user$project$TTT$checkColumns = function (positions) {
 	var right = A2(
 		_elm_lang$core$List$filter,
 		function (x) {
@@ -7298,7 +7298,7 @@ var _user$project$TTT$checkColumns = function (model) {
 				A2(_elm_lang$core$Basics$rem, x.id, 3),
 				2);
 		},
-		model.positions);
+		positions);
 	var mid = A2(
 		_elm_lang$core$List$filter,
 		function (x) {
@@ -7306,7 +7306,7 @@ var _user$project$TTT$checkColumns = function (model) {
 				A2(_elm_lang$core$Basics$rem, x.id, 3),
 				1);
 		},
-		model.positions);
+		positions);
 	var left = A2(
 		_elm_lang$core$List$filter,
 		function (x) {
@@ -7314,7 +7314,7 @@ var _user$project$TTT$checkColumns = function (model) {
 				A2(_elm_lang$core$Basics$rem, x.id, 3),
 				0);
 		},
-		model.positions);
+		positions);
 	return (A2(
 		_elm_lang$core$List$all,
 		function (x) {
@@ -7347,13 +7347,13 @@ var _user$project$TTT$checkColumns = function (model) {
 		},
 		right)) ? true : false));
 };
-var _user$project$TTT$checkRows = function (model) {
-	var bottom = A2(_elm_lang$core$List$drop, 6, model.positions);
+var _user$project$TTT$checkRows = function (positions) {
+	var bottom = A2(_elm_lang$core$List$drop, 6, positions);
 	var mid = A2(
 		_elm_lang$core$List$drop,
 		3,
-		A2(_elm_lang$core$List$take, 6, model.positions));
-	var top = A2(_elm_lang$core$List$take, 3, model.positions);
+		A2(_elm_lang$core$List$take, 6, positions));
+	var top = A2(_elm_lang$core$List$take, 3, positions);
 	return (A2(
 		_elm_lang$core$List$all,
 		function (x) {
@@ -7386,8 +7386,8 @@ var _user$project$TTT$checkRows = function (model) {
 		},
 		bottom)) ? true : false));
 };
-var _user$project$TTT$isGameOver = function (model) {
-	return (_user$project$TTT$checkRows(model) || (_user$project$TTT$checkColumns(model) || _user$project$TTT$checkCrosses(model))) ? true : false;
+var _user$project$TTT$isGameOver = function (positions) {
+	return (_user$project$TTT$checkRows(positions) || (_user$project$TTT$checkColumns(positions) || _user$project$TTT$checkCrosses(positions))) ? true : false;
 };
 var _user$project$TTT$coordHelp = function (id) {
 	return {
@@ -7445,7 +7445,7 @@ var _user$project$TTT$update = F2(
 							A3(_user$project$TTT$updateHelp, _p4._0, model.current, _p4._1),
 							model.positions),
 						current: _elm_lang$core$Native_Utils.eq(model.current, 'X') ? 'O' : 'X',
-						gameOver: _user$project$TTT$isGameOver(model)
+						gameOver: _user$project$TTT$isGameOver(model.positions)
 					});
 			default:
 				return model;

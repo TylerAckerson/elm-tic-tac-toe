@@ -3,7 +3,6 @@ module TTT exposing (main)
 import Position
 import Html exposing (Html, button, div, text)
 import Html.App as App
-import Array exposing (..)
 import List exposing (..)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (..)
@@ -19,23 +18,23 @@ main =
 
 type alias Model =
   { positions : List IndexedPosition
-  , current : Team
+  , current : Player
   , gameOver : Bool
   }
 
 type alias IndexedPosition =
   { id : Int
-  , pos : (Int, Int)
+  , pos : Coord
   , model : Position.Model
   }
 
-type alias Team = String
+type alias Player = String
 type alias Coord = (Int, Int)
 
   -- Model
 init : Model
 init =
-  { positions = List.map (modelHelp) [0..8]
+  { positions = map (modelHelp) [0..8]
   , current = "X"
   , gameOver = False
   }
@@ -45,8 +44,8 @@ modelHelp id =
   IndexedPosition id (coordHelp id) (Position.init "_")
 
 coordHelp : Int -> Coord
-coordHelp id = -- TODO: this isn't pretty. look into modulo
-  ((id // 3), (rem id 3))
+coordHelp id =
+  ( id // 3, rem id 3 )
 
 
 -- UPDATE
@@ -65,45 +64,45 @@ update msg model =
 
     Select id msg ->
       { model
-        | positions = List.map (updateHelp id model.current msg) model.positions
+        | positions = map (updateHelp id model.current msg) model.positions
         , current = (if model.current == "X" then "O" else "X")
-        , gameOver = isGameOver model
+        , gameOver = isGameOver model.positions
       }
 
     NoOp msg ->
       model
 
-updateHelp : Int -> Team -> Position.Msg -> IndexedPosition -> IndexedPosition
+updateHelp : Int -> Player -> Position.Msg -> IndexedPosition -> IndexedPosition
 updateHelp targetId player msg {id, pos, model}  =
   IndexedPosition id pos (if targetId == id then Position.update msg player model else model)
 
-isGameOver : Model -> Bool
-isGameOver model =
-  if (checkRows model || checkColumns model || checkCrosses model) then True else False
+isGameOver : List IndexedPosition -> Bool
+isGameOver positions =
+  if ( checkRows positions || checkColumns positions || checkCrosses positions ) then True else False
 
-checkRows : Model -> Bool
-checkRows model =
-  let top = take 3 model.positions
-      mid = drop 3 <| take 6 model.positions
-      bottom = drop 6 model.positions
+checkRows : List IndexedPosition -> Bool
+checkRows positions =
+  let top = take 3 positions
+      mid = drop 3 <| take 6 positions
+      bottom = drop 6 positions
   in
     if
-      (all (\x -> x.model == "X") top || all (\x -> x.model == "O") top)
+      ( all (\x -> x.model == "X") top || all (\x -> x.model == "O") top )
       then True
     else if
-      (all (\x -> x.model == "X") mid || all (\x -> x.model == "O") mid)
+      ( all (\x -> x.model == "X") mid || all (\x -> x.model == "O") mid )
       then True
     else if
-      (all (\x -> x.model == "X") bottom || all (\x -> x.model == "O") bottom)
+      ( all (\x -> x.model == "X") bottom || all (\x -> x.model == "O") bottom )
       then True
     else
       False
 
-checkColumns : Model -> Bool
-checkColumns model =
-  let left = List.filter (\x -> rem x.id 3 == 0) model.positions
-      mid = List.filter (\x -> rem x.id 3 == 1) model.positions
-      right = List.filter (\x -> rem x.id 3 == 2) model.positions
+checkColumns : List IndexedPosition -> Bool
+checkColumns positions =
+  let left = filter (\x -> rem x.id 3 == 0) positions
+      mid = filter (\x -> rem x.id 3 == 1) positions
+      right = filter (\x -> rem x.id 3 == 2) positions
   in
     if
       (all (\x -> x.model == "X") left || all (\x -> x.model == "O") left)
@@ -117,10 +116,10 @@ checkColumns model =
     else
       False
 
-checkCrosses : Model -> Bool
-checkCrosses model =
-    let leftToRight = List.filter (\x -> x.id == 0 || x.id == 4 || x.id == 8) model.positions
-        rightToLeft = List.filter (\x -> x.id == 2 || x.id == 4 || x.id == 6) model.positions
+checkCrosses : List IndexedPosition -> Bool
+checkCrosses positions =
+    let leftToRight = filter (\x -> x.id == 0 || x.id == 4 || x.id == 8) positions
+        rightToLeft = filter (\x -> x.id == 2 || x.id == 4 || x.id == 6) positions
     in
       if
         (all (\x -> x.model == "X") leftToRight || all (\x -> x.model == "O") leftToRight)
@@ -137,7 +136,7 @@ checkCrosses model =
 view : Model -> Html Msg
 view model =
   let
-    positions = List.map viewIndexedPosition model.positions
+    positions = map viewIndexedPosition model.positions
   in
     div
       [ id "tic-tac-toe"
