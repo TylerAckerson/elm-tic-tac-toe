@@ -7437,15 +7437,16 @@ var _user$project$TTT$update = F2(
 			case 'Reset':
 				return _user$project$TTT$init;
 			case 'Select':
+				var positions = A2(
+					_elm_lang$core$List$map,
+					A3(_user$project$TTT$updateHelp, _p4._0, model.current, _p4._1),
+					model.positions);
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						positions: A2(
-							_elm_lang$core$List$map,
-							A3(_user$project$TTT$updateHelp, _p4._0, model.current, _p4._1),
-							model.positions),
+						positions: positions,
 						current: _elm_lang$core$Native_Utils.eq(model.current, 'X') ? 'O' : 'X',
-						gameOver: _user$project$TTT$isGameOver(model.positions)
+						gameOver: _user$project$TTT$isGameOver(positions)
 					});
 			default:
 				return model;
